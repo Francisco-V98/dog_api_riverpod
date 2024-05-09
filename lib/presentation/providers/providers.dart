@@ -1,1 +1,2 @@
-export 'get_data_name_dogs.dart';
+export 'dog_random_provider.dart';
+export 'dog_name_picture_Provider.dart';

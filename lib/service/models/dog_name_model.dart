@@ -1,5 +1,3 @@
-
-
 class DogNameModel {
   final String name;
 

@@ -24,35 +24,29 @@ class _DogsListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final listDogs = ref.watch(dogNameProvider);
+    final listDogs = ref.watch(dogNamePictureProvider);
     return Padding(
       padding: const EdgeInsets.all(16),
-      child: listDogs.when(
-        data: (data) {
-          return CustomScrollView(
-            slivers: <Widget>[
-              SliverGrid(
-                delegate: SliverChildBuilderDelegate(
-                  childCount: data.length,
-                  (context, index) {
-                    return CardListDog(
-                      name: data[index],
-                      image:
-                          'https://images.dog.ceo/breeds/affenpinscher/n02110627_8048.jpg',
-                    );
-                  },
-                ),
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 16,
-                  mainAxisSpacing: 16,
-                ),
-              )
-            ],
-          );
-        },
-        error: (error, stackTrace) => const Text('No se pudo cargar el nombre'),
-        loading: () => const Center(child: CircularProgressIndicator()),
+      child: CustomScrollView(
+        slivers: <Widget>[
+          SliverGrid(
+            delegate: SliverChildBuilderDelegate(
+              childCount: 3,
+              (context, index) {
+                return CardListDog(
+                  name: listDogs.dogName!.name,
+                  image:
+                      'https://images.dog.ceo/breeds/affenpinscher/n02110627_8048.jpg',
+                );
+              },
+            ),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              crossAxisSpacing: 16,
+              mainAxisSpacing: 16,
+            ),
+          )
+        ],
       ),
     );
   }

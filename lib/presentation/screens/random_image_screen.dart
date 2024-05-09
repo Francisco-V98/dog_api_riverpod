@@ -25,29 +25,38 @@ class _RandomImageScreenView extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final dogRandom = ref.watch(dogRandomProvider);
 
-    // if (dogRandom.urlImage D& dogRandom.nameDog  null ) {
-    //   return const Center(child: CircularProgressIndicator());
-    // }
+    if (dogRandom.isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    } else if (dogRandom.dog == null) {
+      return const Center(child: Text('Error al cargar la imagen del perro.'));
+    }
 
     return Column(
       children: [
         SizedBox(
-          height: 400,
-          width: double.infinity,
-          child: dogRandom.urlImage != null
-              ? Image.network(dogRandom.urlImage!, fit: BoxFit.cover)
-              : const Center(child: Text('No se pudo cargar la imagen del perro')),
-        ),
+            height: 400,
+            width: double.infinity,
+            child: Image.network(dogRandom.dog!.urlImage!, fit: BoxFit.cover)),
         const SizedBox(height: 32),
         Text(
-          dogRandom.nameDog != null
-              ? dogRandom.nameDog!.replaceAll('-', ' ')
-              : '...',
+          dogRandom.dog!.nameDog!.replaceAll('-', ' '),
           style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.w600,
           ),
         ),
+        const Spacer(),
+        ElevatedButton(
+          style: const ButtonStyle(
+            backgroundColor: MaterialStatePropertyAll(Colors.indigo),
+            foregroundColor: MaterialStatePropertyAll(Colors.white),
+          ),
+          onPressed: () {
+            ref.read(dogRandomProvider.notifier).updateDogImage();
+          },
+          child: const Text('Obtener otro perro'),
+        ),
+        const SizedBox(height: 32),
       ],
     );
   }
